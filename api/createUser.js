@@ -5,7 +5,21 @@ const createUser = async (req, res) => {
 
     axios
         .post('https://chatengine.io/projects/people/',
-        {username: userName, secret: userId})
+            {username: userName, secret: userId},
+            { headers: {'Private-Key': process.env.chat_engine_private_key}}
+        )
+        .then(apiRes => {
+            res.json({
+                body: apiRes.body,
+                error: null,
+            })
+        })
+        .catch(() => {
+            res.json({
+                body: null,
+                error: 'There was an error creating the user',
+            });
+        });
 
 }
 
