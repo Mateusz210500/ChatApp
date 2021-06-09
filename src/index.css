@@ -31,7 +31,7 @@ code {
 }
 .auth-form label {
   display: block;
-  margin-bottom: 25px;
+  margin-bottom: 10px;
 }
 .auth-form input {
   width: 100%;
@@ -42,9 +42,9 @@ code {
 }
 .auth-form button {
   padding: 10px;
-  border-radius: 3px;
+  border-radius: 10px;
   outline: none;
-  border: none;
+  border: 2px solid rgb(201, 201, 201);
   color: white;
   cursor: pointer;
   background-color: #030a24;
@@ -70,8 +70,9 @@ code {
   color: #5c5caa;
 }
 .error {
-  color: #cd0000;
-  font-weight: bold;
+  color: #f13b3b;
+  /* font-weight: bold; */
+  font-size: smaller;
 }
 .chat-container {
   flex: 1;
