@@ -1,8 +1,9 @@
-import { FormField } from 'components'
+import { fb } from 'service'
+import {FormField} from 'components/FormField/FormField'
+import {Form, Formik} from 'formik'
 import {useHistory} from 'react-router-dom'
-import { Formik, Form } from 'formik'
-import { defaultValues, validationSchema } from './formikConfig'
-import {useState} from 'react'
+import {defaultValues, validationSchema} from './formikConfig'
+import React, {useState} from 'react'
 
 
 export const Signup = () => {
@@ -10,8 +11,41 @@ export const Signup = () => {
     const history = useHistory();
     const [serverError, setServerError] = useState('');
 
-    const signup = ({email, userName, password}, {setSubmitting}) => 
-    console.log('Signing Up: ', email, userName, password);
+    const signup = ({email, userName, password}, {setSubmitting}) => {
+        fb.auth.createUserWithEmailAndPassword(email, password).then(res => {
+            if (res?.user?.uid){
+                fetch('/api/createUser', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        userName,
+                        userId: res.user.uid,
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                }).then(() => {
+                    fb.firestore
+                    .collection('chatUsers')
+                    .doc(res.user.uid)
+                    .set({userName, avatar: ''})
+                })
+            } else{
+                setServerError(
+                    "we're having trouble signing you up. Please try again"
+                )
+            }
+        })
+        .catch(err => {
+            if(err.code === 'auth/email-already-in-use') {
+                setServerError('An account with this email already exists');
+            } else {
+                setServerError(
+                    "We're having trouble signing you up. Please try again."
+                )
+            }
+        })
+        .finally(() => setSubmitting(false))
+    }
 
     return(
         <div className="auth-form">

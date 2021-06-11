@@ -74,6 +74,7 @@ code {
   color: #f13b3b;
   /* font-weight: bold; */
   font-size: smaller;
+  margin-top: 10px;
 }
 .chat-container {
   flex: 1;

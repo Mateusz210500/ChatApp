@@ -1,3 +1,4 @@
+import { fb } from 'service'
 import {FormField} from 'components'
 import {Form, Formik} from 'formik'
 import {useHistory} from 'react-router-dom'
@@ -6,9 +7,28 @@ import {useState} from 'react'
 
 export const Login = () => {
 
-    const login = ({email, password}, {setSubmitting}) => console.log('Logging In: ', email, password);
     const history = useHistory();
     const [serverError, setServerError] = useState('')
+
+    const login = ({ email, password}, {setSubmitting}) => {
+        fb.auth
+        .signInWithEmailAndPassword(email, password)
+        .then(res => {
+            if (!res.user) {
+                setServerError("We're having trouble logging you in. Please try again");
+            }
+        })
+        .catch(err => {
+            if (err.code === 'auth/wrong-password'){
+                setServerError('Invalid credentials')
+            } else if (err.code === 'auth/user-not-found') {
+                setServerError('No account for this email')
+            } else {
+                setServerError('Something went wrong')
+            }
+        })
+        .finally(() => setSubmitting(false))
+    }
 
     return(
         <div className="auth-form">
