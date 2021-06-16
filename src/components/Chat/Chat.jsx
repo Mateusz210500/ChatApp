@@ -1,3 +1,15 @@
+import {useChat} from "context"
+import { useEffect } from "react";
+
+
 export const Chat = () => {
-    return(<>I am the chat</>)
+   const { chatConfig} = useChat();
+
+   useEffect(() => {
+       console.log(chatConfig);
+   }, [chatConfig])
+
+   return <>I am the chat</>
 }
+
+
