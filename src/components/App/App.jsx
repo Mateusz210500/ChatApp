@@ -1,4 +1,5 @@
 import { useAuth, useResolved } from '../hooks'
+import 'semantic-ui-css/semantic.min.css';
 import {Route, Switch, useHistory} from "react-router-dom"
 import { Login, Signup, Chat } from 'components'
 import { useEffect} from 'react'

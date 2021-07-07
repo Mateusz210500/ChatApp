@@ -21,9 +21,9 @@ export const Chat = () => {
             userSecret={chatConfig.userSecret}
             onConnect={() => {
                 getChats(chatConfig, setMyChats);
-            }}
+            }} }
         />
-    )} */}
+        )*/}
 
         <div className='chat-container'>
             <div className='current-chat'>
